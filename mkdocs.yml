@@ -1,12 +1,12 @@
-site_name: DevOps Docs
+site_name: Public Pages
 site_url: https://skucukalioglu.github.io/public-pages/
 nav:
   - Home:
       'About': index.md
   - DevOps Guides:
-      'Test': devops-guides/README.md
+      'Main': devops-guides/README.md
   - Troubleshooting Guides:
-      'Edge Servers': troubleshooting-guides/README.md
+      'Troubleshooting': troubleshooting-guides/README.md
 
 theme:
   name: material
