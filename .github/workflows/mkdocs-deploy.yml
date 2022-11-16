@@ -22,7 +22,7 @@ jobs:
           
           REQUIREMENTS="${GITHUB_WORKSPACE}/requirements.txt"
           
-          pip3 -H install -r "${REQUIREMENTS}"
+          pip3 install -r "${REQUIREMENTS}"
           
           export CONFIG_FILE="${GITHUB_WORKSPACE}/mkdocs.yml"
           
