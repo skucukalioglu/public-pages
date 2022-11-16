@@ -22,7 +22,7 @@ jobs:
           
           REQUIREMENTS="${GITHUB_WORKSPACE}/requirements.txt"
           
-          pip -H install -r "${REQUIREMENTS}"
+          sudo -H pip install -r "${REQUIREMENTS}"
           
           if [ -n "${GITHUB_TOKEN}" ]; then
               print_info "setup with GITHUB_TOKEN"
