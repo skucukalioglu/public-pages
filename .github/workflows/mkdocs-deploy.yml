@@ -24,8 +24,6 @@ jobs:
           
           pip3 install -r "${REQUIREMENTS}"
           
-          export CONFIG_FILE="${GITHUB_WORKSPACE}/mkdocs.yml"
-          
           if [ -n "${GITHUB_TOKEN}" ]; then
               print_info "setup with GITHUB_TOKEN"
               remote_repo="https://x-access-token:${GITHUB_TOKEN}@${GITHUB_DOMAIN:-"github.com"}/${GITHUB_REPOSITORY}.git"
@@ -43,7 +41,7 @@ jobs:
           
           git remote add origin "${remote_repo}"
           
-          mkdocs gh-deploy --config-file "${CONFIG_FILE}" --force --clean
+          mkdocs gh-deploy --config-file "${GITHUB_WORKSPACE}/mkdocs.yml" --force --clean
         
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}   
