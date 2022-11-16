@@ -15,15 +15,37 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v3
-      
-      - name: Deploy Docs
-        uses: mhausenblas/mkdocs-deploy-gh-pages@master
-
+      - uses: actions/checkout@v3.0.2
+   
+      - name: Install and Deploy
+        run: |       
+          
+          REQUIREMENTS="${GITHUB_WORKSPACE}/requirements.txt"
+          
+          pip3 -H install -r "${REQUIREMENTS}"
+          
+          export CONFIG_FILE="${GITHUB_WORKSPACE}/mkdocs.yml"
+          
+          if [ -n "${GITHUB_TOKEN}" ]; then
+              print_info "setup with GITHUB_TOKEN"
+              remote_repo="https://x-access-token:${GITHUB_TOKEN}@${GITHUB_DOMAIN:-"github.com"}/${GITHUB_REPOSITORY}.git"
+          elif [ -n "${PERSONAL_TOKEN}" ]; then
+              print_info "setup with PERSONAL_TOKEN"
+              remote_repo="https://x-access-token:${PERSONAL_TOKEN}@${GITHUB_DOMAIN:-"github.com"}/${GITHUB_REPOSITORY}.git"
+          else
+              print_info "no token found; linting"
+              exec -- mkdocs build --config-file "${CONFIG_FILE}" --strict
+          fi
+          
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+        
+          git remote rm origin
+          
+          git remote add origin "${remote_repo}"
+          
+          mkdocs gh-deploy --config-file "${CONFIG_FILE}" --force --clean
+        
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          #CUSTOM_DOMAIN: optionaldomain.com
-          #CONFIG_FILE: folder/mkdocs.yml
-          #EXTRA_PACKAGES: build-base
-          #GITHUB_DOMAIN: github.myenterprise.com
-          #REQUIREMENTS: requirements.txt
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}   
+
+
