@@ -46,13 +46,6 @@ jobs:
           
           exec -- mkdocs build --clean
 
-          git config --global --add safe.directory "$GITHUB_WORKSPACE"
-        
-          git remote rm origin
-          
-          git remote add origin "${remote_repo}"
-          
-          mkdocs gh-deploy --clean 
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}   
       
