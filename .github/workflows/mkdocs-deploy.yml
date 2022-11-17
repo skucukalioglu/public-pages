@@ -39,6 +39,8 @@ jobs:
         run: |       
           
           REQUIREMENTS="${GITHUB_WORKSPACE}/requirements.txt"
+
+          sudo apt install python3-testresources
           
           sudo -H pip install -r "${REQUIREMENTS}"
           
