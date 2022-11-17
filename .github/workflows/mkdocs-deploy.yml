@@ -44,14 +44,8 @@ jobs:
           
           sudo -H pip install -r "${REQUIREMENTS}"
           
-          if [ -n "${GITHUB_TOKEN}" ]; then
-              remote_repo="https://x-access-token:${GITHUB_TOKEN}@${GITHUB_DOMAIN:-"github.com"}/${GITHUB_REPOSITORY}.git"
-          elif [ -n "${PERSONAL_TOKEN}" ]; then
-              remote_repo="https://x-access-token:${PERSONAL_TOKEN}@${GITHUB_DOMAIN:-"github.com"}/${GITHUB_REPOSITORY}.git"
-          else
-              exec -- mkdocs build --clean
-          fi
-          
+          exec -- mkdocs build --clean
+
           git config --global --add safe.directory "$GITHUB_WORKSPACE"
         
           git remote rm origin
@@ -61,8 +55,6 @@ jobs:
           mkdocs gh-deploy --clean 
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}   
-        #with:
-        #  token: ${{ secrets.GH_TOKEN }}
       
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
