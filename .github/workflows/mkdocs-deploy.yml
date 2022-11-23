@@ -27,6 +27,7 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
+      
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -35,17 +36,14 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v2
 
-      - name: Install and Build
-        run: |       
-          
-          REQUIREMENTS="${GITHUB_WORKSPACE}/requirements.txt"
-
-          sudo apt install python3-testresources
-          
-          sudo -H pip install -r "${REQUIREMENTS}"
-          
-          exec -- mkdocs build --clean
-
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10' 
+      
+      - run: pip install -r "${GITHUB_WORKSPACE}/requirements.txt"
+      
+      - run: mkdocs build --clean
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}   
       
