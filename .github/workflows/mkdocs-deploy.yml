@@ -45,8 +45,9 @@ jobs:
       
       - run: mkdocs build --clean
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}   
-      
+          #GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}   
+          GITHUB_TOKEN: ${{ github.token }}
+          
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
